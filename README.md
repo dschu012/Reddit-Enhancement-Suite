@@ -4,7 +4,7 @@ Reddit Enhancement Suite (RES) is a suite of modules that enhance your Reddit br
 
 For general documentation, visit the [Reddit Enhancement Suite Wiki](http://redditenhancementsuite.com:8080/wiki/).
 
-### Introduction
+## Introduction
 
 Hi there! Thanks for checking out RES on GitHub. A few important notes:
 
@@ -47,8 +47,10 @@ In order to build the extension, the files from `lib/` must be replicated (eithe
   - `changelog.txt` – self-explanatory
   - `makelinks.sh` – script to generate hard links
   - `Gruntfile.js`, `package.json` – used for alternative build scripts
-  - `lib/` – core RES code
+  - `lib/` – all RES code
+  - `lib/core/` – core RES code
   - `lib/modules/` – RES modules
+  - `lib/vendor/` – RES vendor libraries
   - `Chrome/` – Chrome-specific RES files
   - `Opera/` – Opera-specific RES files
   - `OperaBlink/` – Opera Blink (new Opera)-specific RES files
@@ -61,7 +63,6 @@ In order to build the extension, the files from `lib/` must be replicated (eithe
   - `background.js` – the "background page" for RES, necessary for Chrome extensions
   - `manifest.json` – the project manifest
   - `icon.png`, `icon48.png`, `icon128.png` – icons!
-  - `jquery-1.10.2.min.map` – Chrome moans if this file doesn't exist
 
 ##### Opera files
 

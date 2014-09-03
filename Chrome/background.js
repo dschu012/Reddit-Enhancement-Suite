@@ -15,18 +15,18 @@
 
 	Thanks, I appreciate your consideration.  Without further ado, the all-important GPL Statement:
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
@@ -39,11 +39,11 @@ var XHRCache = {
 	count: 0,
 	check: function(key) {
 		if (key in this.entries) {
-//				console.count("hit");
+//				console.count('hit');
 			this.entries[key].hits++;
 			return this.entries[key].data;
 		} else {
-//				console.count("miss");
+//				console.count('miss');
 			return null;
 		}
 	},
@@ -51,7 +51,7 @@ var XHRCache = {
 		if (key in this.entries) {
 			return;
 		} else {
-//				console.count("add");
+//				console.count('add');
 			this.entries[key] = {data: value, timestamp: Date.now(), hits: 1};
 			this.count++;
 		}
@@ -81,7 +81,7 @@ var XHRCache = {
 			delete this.entries[bottom[i].key];
 			this.count--;
 		}
-//			console.count("prune");
+//			console.count('prune');
 	},
 	clear: function() {
 		this.entries = {};
@@ -105,11 +105,11 @@ chrome.runtime.onMessage.addListener(
 			case 'deleteCookie':
 				// Get chrome cookie handler
 				if (!chrome.cookies) {
-                    chrome.cookies = chrome.experimental.cookies;
-                }
+					chrome.cookies = chrome.experimental.cookies;
+				}
 				chrome.cookies.remove({'url': 'http://reddit.com', 'name': request.cname});
 				break;
-			case 'GM_xmlhttpRequest':
+			case 'ajax':
 				if (request.aggressiveCache || XHRCache.forceCache) {
 					var cachedResult = XHRCache.check(request.url);
 					if (cachedResult) {
@@ -119,8 +119,8 @@ chrome.runtime.onMessage.addListener(
 				}
 				xhr = new XMLHttpRequest();
 				xhr.open(request.method, request.url, true);
-				if (request.method === "POST") {
-					xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				if (request.method === 'POST') {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 				}
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState === 4) {
@@ -154,7 +154,7 @@ chrome.runtime.onMessage.addListener(
 						chrome.tabs.create({url: request.commentsURL, selected: button, index: newIndex+1, openerTabId: sender.tab.id});
 					}
 				}
-				sendResponse({status: "success"});
+				sendResponse({status: 'success'});
 				break;
 			case 'keyboardNav':
 				button = (request.button !== 1);
@@ -166,7 +166,7 @@ chrome.runtime.onMessage.addListener(
 				// Get the selected tab so we can get the index of it.  This allows us to open our new tab as the "next" tab.
 				newIndex = sender.tab.index + 1;
 				chrome.tabs.create({url: thisLinkURL, selected: button, index: newIndex, openerTabId: sender.tab.id});
-				sendResponse({status: "success"});
+				sendResponse({status: 'success'});
 				break;
 			case 'openLinkInNewTab':
 				var focus = (request.focus === true);
@@ -178,11 +178,11 @@ chrome.runtime.onMessage.addListener(
 				// Get the selected tab so we can get the index of it.  This allows us to open our new tab as the "next" tab.
 				newIndex = sender.tab.index + 1;
 				chrome.tabs.create({url: thisLinkURL, selected: focus, index: newIndex, openerTabId: sender.tab.id});
-				sendResponse({status: "success"});
+				sendResponse({status: 'success'});
 				break;
 			case 'compareVersion':
 				xhr = new XMLHttpRequest();
-				xhr.open("GET", request.url, true);
+				xhr.open('GET', request.url, true);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState === 4) {
 						// JSON.parse does not evaluate the attacker's scripts.
@@ -195,7 +195,7 @@ chrome.runtime.onMessage.addListener(
 				break;
 			case 'loadTweet':
 				xhr = new XMLHttpRequest();
-				xhr.open("GET", request.url, true);
+				xhr.open('GET', request.url, true);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState === 4) {
 						// JSON.parse does not evaluate the attacker's scripts.
@@ -232,7 +232,7 @@ chrome.runtime.onMessage.addListener(
 						chrome.tabs.query({}, function(tabs){
 							for (var i = 0; i < tabs.length; i++) {
 								if (thisTabID !== tabs[i].id) {
-									chrome.tabs.sendMessage(tabs[i].id, { requestType: "localStorage", itemName: request.itemName, itemValue: request.itemValue });
+									chrome.tabs.sendMessage(tabs[i].id, { requestType: 'localStorage', itemName: request.itemName, itemValue: request.itemValue });
 								}
 							}
 						});
@@ -301,7 +301,7 @@ chrome.runtime.onMessage.addListener(
 				}
 				break;
 			default:
-				sendResponse({status: "unrecognized request type"});
+				sendResponse({status: 'unrecognized request type'});
 				break;
 		}
 	}
